@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const extractZip = require('extract-zip');
-const download = require('download');
+const got = require('got');
 const tmp = require('tmp');
 
 const config = require('./config');
@@ -53,7 +53,7 @@ function downloadChromium() {
             .then(path => {
                 console.log('Downloading Chromium archive from Google CDN');
                 const url = getOsCdnUrl();
-                download(url)
+                got.stream(url)
                     .on('error', error => {
                         console.log('An error occurred while trying to download Chromium archive', error);
                         reject(error);
