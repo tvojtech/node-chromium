@@ -8,31 +8,31 @@ const tmp = require('tmp');
 const config = require('./config');
 const utils = require('./utils');
 
-const CDN_URL = 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/';
+const CDN_URL = 'https://download-chromium.appspot.com/dl/OS_TYPE?type=snapshots';
 
 function getOsCdnUrl() {
-    let url = CDN_URL;
+    let osType = "";
 
     const platform = process.platform;
 
     if (platform === 'linux') {
-        url += 'Linux';
+        osType += 'Linux';
         if (process.arch === 'x64') {
-            url += '_x64';
+            osType += '_x64';
         }
     } else if (platform === 'win32') {
-        url += 'Win';
+        osType += 'Win';
         if (process.arch === 'x64') {
-            url += '_x64';
+            osType += '_x64';
         }
     } else if (platform === 'darwin') {
-        url += 'Mac';
+        osType += 'Mac';
     } else {
         console.log('Unknown platform or architecture found:', process.platform, process.arch);
         throw new Error('Unsupported platform');
     }
 
-    return url;
+    return CDN_URL.replace(/OS_TYPE/, osType);
 }
 
 function getLatestRevisionNumber() {
